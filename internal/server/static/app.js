@@ -77,6 +77,10 @@
     }
 
     // Interactive Command Builder
+    function shellQuote(s) {
+      return "'" + s.replace(/'/g, "'\\''") + "'";
+    }
+
     function updateCommand() {
       const host = window.location.host || '127.0.0.1:8080';
       const wsProto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -91,15 +95,15 @@
       ];
 
       if (name) {
-        lines.push(`  --name ${name} \\`);
+        lines.push(`  --name ${shellQuote(name)} \\`);
       }
       if (id) {
-        lines.push(`  --id ${id} \\`);
+        lines.push(`  --id ${shellQuote(id)} \\`);
       }
       if (desc) {
-        lines.push(`  --desc "${desc}" \\`);
+        lines.push(`  --desc ${shellQuote(desc)} \\`);
       }
-      lines.push(`  --target ${target}`);
+      lines.push(`  --target ${shellQuote(target)}`);
 
       document.getElementById('cmd-output').textContent = lines.join('\n');
     }
